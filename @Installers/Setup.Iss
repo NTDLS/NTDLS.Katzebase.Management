@@ -1,7 +1,7 @@
 [Setup]
 ;-- Main Setup Information
  AppName                          = Katzebase Management
- AppVerName                       = Katzebase Management 0.8.0.0
+ AppVerName                       = Katzebase Management 0.10.0.0
  AppCopyright                     = Copyright © 2024 NetworkDLS.
  DefaultDirName                   = {commonpf}\NetworkDLS\Katzebase\Management
  DefaultGroupName                 = NetworkDLS\Katzebase
@@ -19,7 +19,7 @@
  AppPublisher    = NetworkDLS
  AppPublisherURL = http://www.NetworkDLS.com/
  AppUpdatesURL   = http://www.NetworkDLS.com/
- AppVersion      = 0.8.0.0
+ AppVersion      = 0.10.0.0
 
 [Files]
  Source: "..\NTDLS.Katzebase.Management\bin\Release\net8.0-windows\*.exe";        DestDir: "{app}";                       Flags: IgnoreVersion;                 

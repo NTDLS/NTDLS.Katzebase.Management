@@ -18,13 +18,21 @@ namespace NTDLS.Katzebase.Management
         public FormConnect()
         {
             InitializeComponent();
+
+            textBoxServerAddress.Text = "127.0.0.1";
+            textBoxPort.Text = "6858";
+        }
+
+        public FormConnect(string host, int port)
+        {
+            InitializeComponent();
+
+            textBoxServerAddress.Text = host;
+            textBoxPort.Text = port.ToString();
         }
 
         private void FormConnect_Load(object sender, EventArgs e)
         {
-            textBoxServerAddress.Text = "127.0.0.1";
-            textBoxPort.Text = "6858";
-
             AcceptButton = buttonConnect;
             CancelButton = buttonCancel;
         }

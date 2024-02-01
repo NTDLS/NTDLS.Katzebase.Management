@@ -10,7 +10,7 @@ namespace NTDLS.Katzebase.Management.Classes
     {
 
 #if DEBUG
-        private static string sqlHighlighter => @"..\..\..\..\..\NTDLS.Katzebase.Server\@Installers\Highlighters\KBS.xshd";
+        private static string sqlHighlighter => @"..\..\..\..\@Installers\Highlighters\KBS.xshd";
 #else
         private static string sqlHighlighter => Path.Combine(Path.GetDirectoryName(Application.ExecutablePath) ?? "", "Highlighters", "KBS.xshd");
 #endif

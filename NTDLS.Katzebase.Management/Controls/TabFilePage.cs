@@ -125,7 +125,12 @@ namespace NTDLS.Katzebase.Management.Controls
             if (string.IsNullOrEmpty(serverHost) == false)
             {
                 Client = new KbClient(serverHost, serverPort);
+                Client.OnDisconnected += Client_OnDisconnected;
             }
+        }
+
+        private void Client_OnDisconnected(KbClient sender, KbSessionInfo sessionInfo)
+        {
         }
 
         public static TabFilePage Create(EditorFactory editorFactory, string tabText = "", string serverHost = "", int serverPort = 0)
@@ -241,10 +246,25 @@ namespace NTDLS.Katzebase.Management.Controls
                 }
                 IsScriptExecuting = true;
 
-                if (Client == null)
+                if (Client == null || (Client?.ProcessId ?? 0) == 0)
                 {
-                    IsScriptExecuting = false;
-                    return;
+                    try
+                    {
+                        using var form = new FormConnect(Client?.Host ?? "", Client?.Port ?? 6858);
+                        if (form.ShowDialog() != DialogResult.OK)
+                        {
+                            IsScriptExecuting = false;
+                            return;
+                        }
+
+                        Client = new KbClient(form.ServerHost, form.ServerPort);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, KbConstants.FriendlyName);
+                        IsScriptExecuting = false;
+                        return;
+                    }
                 }
 
                 PreExecuteEvent(this);

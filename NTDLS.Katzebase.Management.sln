@@ -5,6 +5,11 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTDLS.Katzebase.Management", "NTDLS.Katzebase.Management\NTDLS.Katzebase.Management.csproj", "{B5D9EA25-8D55-48CD-BBCE-8E27F8BE8F91}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{18CA9F65-1B7A-4AD5-90FD-FCC99F6D41E3}"
+	ProjectSection(SolutionItems) = preProject
+		@Installers\Setup.Iss = @Installers\Setup.Iss
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
