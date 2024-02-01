@@ -1,0 +1,10 @@
+
+NTDLS.Katzebase.Management/bin/
+
+NTDLS.Katzebase.Management/obj/
+
+*.user
+
+.vs/
+
+\@Installers/Output/
