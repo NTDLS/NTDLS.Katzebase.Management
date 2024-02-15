@@ -267,6 +267,11 @@ namespace NTDLS.Katzebase.Management.Controls
                     }
                 }
 
+                if (Client == null)
+                {
+                    return;
+                }
+
                 PreExecuteEvent(this);
 
                 foreach (var dgv in ResultsPanel.Controls.OfType<DataGridView>().ToList())
