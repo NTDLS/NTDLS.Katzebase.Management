@@ -1,7 +1,7 @@
 [Setup]
 ;-- Main Setup Information
  AppName                          = Katzebase Management
- AppVerName                       = Katzebase Management 0.11.0
+ AppVerName                       = Katzebase Management 0.12.0
  AppCopyright                     = Copyright © 2024 NetworkDLS.
  DefaultDirName                   = {commonpf}\NetworkDLS\Katzebase\Management
  DefaultGroupName                 = NetworkDLS\Katzebase
@@ -14,12 +14,10 @@
  ChangesAssociations              = Yes
  OutputBaseFilename               = Katzebase_Management
  ArchitecturesInstallIn64BitMode  = x64
-
-;-- Windows 2000 & XP (Support Dialog)
- AppPublisher    = NetworkDLS
- AppPublisherURL = http://www.NetworkDLS.com/
- AppUpdatesURL   = http://www.NetworkDLS.com/
- AppVersion      = 0.11.0
+ AppPublisher					  = NetworkDLS
+ AppPublisherURL				  = http://www.NetworkDLS.com/
+ AppUpdatesURL					  = http://www.NetworkDLS.com/
+ AppVersion						  = 0.12.0
 
 [Files]
  Source: "..\NTDLS.Katzebase.Management\bin\Release\net8.0-windows\*.exe";        DestDir: "{app}";                       Flags: IgnoreVersion;                 
