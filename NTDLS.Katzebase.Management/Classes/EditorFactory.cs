@@ -192,7 +192,7 @@ namespace NTDLS.Katzebase.Management.Classes
             }
             catch
             {
-                //I've never seen an exception, but I dont want anyone losing work if my math is off.
+                //I've never seen an exception, but I don't want anyone losing work if my math is off.
             }
         }
 

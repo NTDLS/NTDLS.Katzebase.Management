@@ -440,19 +440,19 @@ namespace NTDLS.Katzebase.Management.Controls
 
                         if (metricsTextItems.Count > 0)
                         {
-                            int maxValueTength = metricsTextItems.Max(o => o.Value.Length);
-                            int maxAverageTength = metricsTextItems.Max(o => o.Average.Length);
-                            int maxCountTength = metricsTextItems.Max(o => o.Count.Length);
+                            int maxValueLength = metricsTextItems.Max(o => o.Value.Length);
+                            int maxAverageLength = metricsTextItems.Max(o => o.Average.Length);
+                            int maxCountLength = metricsTextItems.Max(o => o.Count.Length);
 
                             foreach (var metricsTextItem in metricsTextItems)
                             {
-                                int diff = (maxValueTength - metricsTextItem.Value.Length) + 1;
+                                int diff = (maxValueLength - metricsTextItem.Value.Length) + 1;
                                 string metricText = $"{metricsTextItem.Value}{new string(' ', diff)}";
 
-                                diff = (maxCountTength - metricsTextItem.Count.Length) + 1;
+                                diff = (maxCountLength - metricsTextItem.Count.Length) + 1;
                                 metricText += $"{metricsTextItem.Count}{new string(' ', diff)}";
 
-                                diff = (maxAverageTength - metricsTextItem.Average.Length) + 1;
+                                diff = (maxAverageLength - metricsTextItem.Average.Length) + 1;
                                 metricText += $"{metricsTextItem.Average}{new string(' ', diff)}";
 
                                 metricText += metricsTextItem.Name;
@@ -574,9 +574,9 @@ namespace NTDLS.Katzebase.Management.Controls
                 return;
             }
 
-            var results = resultCollection.Collection.Where(o => o.Rows.Any()).ToList();
+            var results = resultCollection.Collection.Where(o => o.Rows.Count != 0).ToList();
 
-            var outputGrids = AddEvenlyDistributedDataGridViews(results.Count());
+            var outputGrids = AddEvenlyDistributedDataGridViews(results.Count);
 
             for (int i = 0; i < results.Count; i++)
             {

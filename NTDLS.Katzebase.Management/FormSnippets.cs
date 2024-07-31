@@ -64,8 +64,7 @@ namespace NTDLS.Katzebase.Management
 
         private void PopupMenu_ItemClicked(object? sender, ToolStripItemClickedEventArgs e)
         {
-            var contextMenu = sender as ContextMenuStrip;
-            if (contextMenu == null)
+            if (sender is not ContextMenuStrip contextMenu)
             {
                 return;
             }
@@ -76,8 +75,7 @@ namespace NTDLS.Katzebase.Management
                 return;
             }
 
-            TreeNode? clickedNode = contextMenu.Tag as TreeNode;
-            if (clickedNode == null)
+            if (contextMenu.Tag is not TreeNode clickedNode)
             {
                 return;
             }

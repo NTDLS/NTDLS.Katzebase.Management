@@ -94,7 +94,7 @@
             buttonConnect.Size = new Size(94, 28);
             buttonConnect.TabIndex = 4;
             buttonConnect.Text = "Connect";
-            buttonConnect.Click += buttonOk_Click;
+            buttonConnect.Click += ButtonOk_Click;
             // 
             // buttonCancel
             // 
@@ -104,7 +104,7 @@
             buttonCancel.Size = new Size(94, 28);
             buttonCancel.TabIndex = 5;
             buttonCancel.Text = "Cancel";
-            buttonCancel.Click += buttonCancel_Click;
+            buttonCancel.Click += ButtonCancel_Click;
             // 
             // FormConnect
             // 

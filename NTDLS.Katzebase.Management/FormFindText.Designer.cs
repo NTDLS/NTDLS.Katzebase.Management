@@ -44,7 +44,7 @@
             buttonFindNext.TabIndex = 1;
             buttonFindNext.Text = "Find Next";
             buttonFindNext.UseVisualStyleBackColor = true;
-            buttonFindNext.Click += buttonFindNext_Click;
+            buttonFindNext.Click += ButtonFindNext_Click;
             // 
             // buttonFind
             // 
@@ -54,7 +54,7 @@
             buttonFind.TabIndex = 2;
             buttonFind.Text = "Find";
             buttonFind.UseVisualStyleBackColor = true;
-            buttonFind.Click += buttonFind_Click;
+            buttonFind.Click += ButtonFind_Click;
             // 
             // textBoxFindText
             // 
@@ -80,7 +80,7 @@
             buttonClose.TabIndex = 3;
             buttonClose.Text = "Close";
             buttonClose.UseVisualStyleBackColor = true;
-            buttonClose.Click += buttonClose_Click;
+            buttonClose.Click += ButtonClose_Click;
             // 
             // FormFindText
             // 

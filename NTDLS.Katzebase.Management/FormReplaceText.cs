@@ -79,27 +79,27 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void buttonFind_Click(object sender, EventArgs e)
+        private void ButtonFind_Click(object sender, EventArgs e)
         {
             FindFirst();
         }
 
-        private void buttonFindNext_Click(object sender, EventArgs e)
+        private void ButtonFindNext_Click(object sender, EventArgs e)
         {
             FindNext();
         }
 
-        private void buttonClose_Click(object sender, EventArgs e)
+        private void ButtonClose_Click(object sender, EventArgs e)
         {
             Hide();
         }
 
-        private void buttonReplace_Click(object sender, EventArgs e)
+        private void ButtonReplace_Click(object sender, EventArgs e)
         {
             Replace();
         }
 
-        private void buttonReplaceAll_Click(object sender, EventArgs e)
+        private void ButtonReplaceAll_Click(object sender, EventArgs e)
         {
             ReplaceAll();
         }

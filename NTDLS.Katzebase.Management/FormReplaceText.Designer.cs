@@ -48,7 +48,7 @@
             buttonFindNext.TabIndex = 5;
             buttonFindNext.Text = "Find Next";
             buttonFindNext.UseVisualStyleBackColor = true;
-            buttonFindNext.Click += buttonFindNext_Click;
+            buttonFindNext.Click += ButtonFindNext_Click;
             // 
             // buttonFind
             // 
@@ -58,7 +58,7 @@
             buttonFind.TabIndex = 4;
             buttonFind.Text = "Find";
             buttonFind.UseVisualStyleBackColor = true;
-            buttonFind.Click += buttonFind_Click;
+            buttonFind.Click += ButtonFind_Click;
             // 
             // textBoxFindText
             // 
@@ -84,7 +84,7 @@
             buttonClose.TabIndex = 6;
             buttonClose.Text = "Close";
             buttonClose.UseVisualStyleBackColor = true;
-            buttonClose.Click += buttonClose_Click;
+            buttonClose.Click += ButtonClose_Click;
             // 
             // label2
             // 
@@ -110,7 +110,7 @@
             buttonReplace.TabIndex = 2;
             buttonReplace.Text = "Replace";
             buttonReplace.UseVisualStyleBackColor = true;
-            buttonReplace.Click += buttonReplace_Click;
+            buttonReplace.Click += ButtonReplace_Click;
             // 
             // buttonReplaceAll
             // 
@@ -120,7 +120,7 @@
             buttonReplaceAll.TabIndex = 3;
             buttonReplaceAll.Text = "Replace All";
             buttonReplaceAll.UseVisualStyleBackColor = true;
-            buttonReplaceAll.Click += buttonReplaceAll_Click;
+            buttonReplaceAll.Click += ButtonReplaceAll_Click;
             // 
             // FormReplaceText
             // 

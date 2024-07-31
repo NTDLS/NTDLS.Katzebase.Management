@@ -6,7 +6,6 @@ namespace NTDLS.Katzebase.Management
     {
         public string ServerHost => textBoxServerAddress.Text.Trim();
         public int ServerPort
-
         {
             get
             {
@@ -37,7 +36,7 @@ namespace NTDLS.Katzebase.Management
             CancelButton = buttonCancel;
         }
 
-        private void buttonOk_Click(object sender, EventArgs e)
+        private void ButtonOk_Click(object sender, EventArgs e)
         {
             try
             {
@@ -53,7 +52,7 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();

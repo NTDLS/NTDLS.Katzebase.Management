@@ -62,17 +62,17 @@ namespace NTDLS.Katzebase.Management
             DoFind(_lastIndex);
         }
 
-        private void buttonFind_Click(object sender, EventArgs e)
+        private void ButtonFind_Click(object sender, EventArgs e)
         {
             FindFirst();
         }
 
-        private void buttonFindNext_Click(object sender, EventArgs e)
+        private void ButtonFindNext_Click(object sender, EventArgs e)
         {
             FindNext();
         }
 
-        private void buttonClose_Click(object sender, EventArgs e)
+        private void ButtonClose_Click(object sender, EventArgs e)
         {
             Hide();
         }

@@ -68,7 +68,7 @@ namespace NTDLS.Katzebase.Management
 
                 if (componentAssembly.Version != null && companyName?.ToLower()?.Contains("networkdls") == true)
                 {
-                    listViewVersions.Items.Add(new ListViewItem(new string[] { componentAssembly.Name ?? "", componentAssembly.Version.ToString() }));
+                    listViewVersions.Items.Add(new ListViewItem([componentAssembly.Name ?? "", componentAssembly.Version.ToString()]));
                 }
             }
             catch
@@ -76,9 +76,20 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void linkWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://www.NetworkDLS.com");
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "http://www.NetworkDLS.com",
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
         }
     }
 }

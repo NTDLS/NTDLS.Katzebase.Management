@@ -28,7 +28,7 @@ namespace NTDLS.Katzebase.Management.Classes
 
 
         /// <summary>
-        /// Populates a schema, its indexes and one level deeper to ensure there is somehting to expand in the tree.
+        /// Populates a schema, its indexes and one level deeper to ensure there is something to expand in the tree.
         /// </summary>
         /// <param name="client"></param>
         /// <param name="name"></param>
@@ -71,7 +71,7 @@ namespace NTDLS.Katzebase.Management.Classes
             var rootNode = GetRootNode(node);
             string schema = FullSchemaPath(node);
 
-            node.Nodes.Clear(); //Dont clear the node until we hear back from the server.
+            node.Nodes.Clear(); //Don't clear the node until we hear back from the server.
             if (rootNode.ServerClient != null)
             {
                 PopulateSchemaNode(node, rootNode.ServerClient, schema);
@@ -173,7 +173,7 @@ namespace NTDLS.Katzebase.Management.Classes
         {
             string result = string.Empty;
 
-            if ((node as ServerTreeNode)?.NodeType == ServerNodeType.Schema)
+            if (node is ServerTreeNode { NodeType: ServerNodeType.Schema })
             {
                 result = node.Text;
             }
@@ -183,13 +183,13 @@ namespace NTDLS.Katzebase.Management.Classes
                 node = (ServerTreeNode)node.Parent;
             }
 
-            while (node.Parent != null && (node.Parent as ServerTreeNode)?.NodeType == ServerNodeType.Schema)
+            while (node.Parent != null && node.Parent is ServerTreeNode { NodeType: ServerNodeType.Schema })
             {
                 node = (ServerTreeNode)node.Parent;
                 result = $"{node.Text}:{result}";
             }
 
-            return result.Trim(new char[] { ':' });
+            return result.Trim([':']);
         }
 
         public static ServerTreeNode GetRootNode(ServerTreeNode node)

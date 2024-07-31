@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using NTDLS.Helpers;
-using NTDLS.Katzebase.Client;
 
 namespace NTDLS.Katzebase.Management.Classes
 {
@@ -32,25 +31,22 @@ namespace NTDLS.Katzebase.Management.Classes
                     File.WriteAllText(FilePath, dummyJson);
                 }
 
-                _instance = JsonConvert.DeserializeObject<Preferences>(File.ReadAllText(FilePath));
-                if (_instance == null)
-                {
-                    _instance = new Preferences();
-                }
+                _instance = JsonConvert.DeserializeObject<Preferences>(File.ReadAllText(FilePath))
+                    ?? new Preferences();
             }
         }
 
-        public List<string> RecentProjects { get; set; } = new List<string>();
+        public List<string> RecentProjects { get; set; } = new();
 
         public void AddRecentProject(string projectFile)
         {
-            RecentProjects.RemoveAll(o => o.ToLower() == projectFile.ToLower());
+            RecentProjects.RemoveAll(o => o.Equals(projectFile, StringComparison.InvariantCultureIgnoreCase));
             RecentProjects.Insert(0, projectFile);
         }
 
         public void RemoveRecentProject(string projectFile)
         {
-            RecentProjects.RemoveAll(o => o.ToLower() == projectFile.ToLower());
+            RecentProjects.RemoveAll(o => o.Equals(projectFile, StringComparison.InvariantCultureIgnoreCase));
         }
 
         static public void Save()
