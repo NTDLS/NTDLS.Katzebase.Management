@@ -12,7 +12,7 @@
  MinVersion                       = 0.0,7.0
  Compression                      = bZIP/9
  ChangesAssociations              = Yes
- OutputBaseFilename               = Katzebase_Management
+ OutputBaseFilename               = Katzebase.Management
  ArchitecturesInstallIn64BitMode  = x64
  AppPublisher					  = NetworkDLS
  AppPublisherURL				  = http://www.NetworkDLS.com/
