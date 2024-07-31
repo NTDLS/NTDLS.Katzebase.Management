@@ -1,4 +1,5 @@
-﻿using NTDLS.Katzebase.Client;
+﻿using NTDLS.Helpers;
+using NTDLS.Katzebase.Client;
 using static NTDLS.Katzebase.Management.Classes.Constants;
 
 namespace NTDLS.Katzebase.Management.Classes
@@ -246,20 +247,18 @@ namespace NTDLS.Katzebase.Management.Classes
                 {
                     int nodeIndex = node.Nodes[i].Index;
                     var nodeCopy = node.Nodes[i].Clone() as TreeNode;
-                    KbUtility.EnsureNotNull(nodeCopy);
                     node.Nodes.Remove(node.Nodes[i]);
 
-                    node.Nodes.Insert(nodeIndex + 1, nodeCopy);
+                    node.Nodes.Insert(nodeIndex + 1, nodeCopy.EnsureNotNull());
                     moves++;
                 }
                 else if (node.Nodes[i + 1].Text.CompareTo(node.Nodes[i].Text) < 0)
                 {
                     int nodeIndex = node.Nodes[i].Index;
                     var nodeCopy = node.Nodes[i].Clone() as TreeNode;
-                    KbUtility.EnsureNotNull(nodeCopy);
                     node.Nodes.Remove(node.Nodes[i]);
 
-                    node.Nodes.Insert(nodeIndex - 1, nodeCopy);
+                    node.Nodes.Insert(nodeIndex - 1, nodeCopy.EnsureNotNull());
                     moves++;
                 }
             }

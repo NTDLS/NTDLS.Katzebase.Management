@@ -387,7 +387,7 @@ namespace NTDLS.Katzebase.Management.Controls
                 group.OnException += Group_OnException;
                 group.OnStatus += Group_OnStatus;
 
-                var scripts = KbUtility.SplitQueryBatchesOnGO(scriptText);
+                var scripts = KbTextUtility.SplitQueryBatchesOnGO(scriptText);
 
                 DateTime startTime = DateTime.UtcNow;
 

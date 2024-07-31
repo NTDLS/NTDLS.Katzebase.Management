@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NTDLS.Helpers;
 using NTDLS.Katzebase.Client;
 
 namespace NTDLS.Katzebase.Management.Classes
@@ -11,8 +12,7 @@ namespace NTDLS.Katzebase.Management.Classes
             get
             {
                 EnsureInstanceIsCreated();
-                KbUtility.EnsureNotNull(_instance);
-                return _instance;
+                return _instance.EnsureNotNull();
             }
         }
 

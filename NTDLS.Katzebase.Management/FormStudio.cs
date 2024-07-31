@@ -1,3 +1,4 @@
+using NTDLS.Helpers;
 using NTDLS.Katzebase.Client;
 using NTDLS.Katzebase.Management.Classes;
 using NTDLS.Katzebase.Management.Controls;
@@ -259,15 +260,8 @@ namespace NTDLS.Katzebase.Management
         {
             try
             {
-                var menuStrip = sender as ContextMenuStrip;
-                KbUtility.EnsureNotNull(menuStrip);
-
-                menuStrip.Close();
-
-                KbUtility.EnsureNotNull(menuStrip.Tag);
-
-                var node = (menuStrip.Tag) as ServerTreeNode;
-                KbUtility.EnsureNotNull(node);
+                var menuStrip = (sender as ContextMenuStrip).EnsureNotNull();
+                var node = (menuStrip.Tag as ServerTreeNode).EnsureNotNull();
 
                 if (e.ClickedItem?.Text == "Refresh")
                 {
@@ -541,15 +535,13 @@ namespace NTDLS.Katzebase.Management
 
         private TabFilePage CreateNewTab(string tabText = "", string serverAddress = "", int serverPort = 0)
         {
-            KbUtility.EnsureNotNull(_editorFactory);
-
             if (string.IsNullOrWhiteSpace(serverAddress))
             {
                 serverAddress = _lastusedServerAddress;
                 serverPort = _lastusedServerPort;
             }
 
-            return TabFilePage.Create(_editorFactory, tabText, serverAddress, serverPort);
+            return TabFilePage.Create(_editorFactory.EnsureNotNull(), tabText, serverAddress, serverPort);
         }
 
 
