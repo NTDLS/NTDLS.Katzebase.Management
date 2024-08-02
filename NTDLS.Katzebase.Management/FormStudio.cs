@@ -243,9 +243,10 @@ namespace NTDLS.Katzebase.Management
             {
                 popupMenu.Items.Add("Create Index", FormUtility.TransparentImage(Resources.Asset));
                 popupMenu.Items.Add("Select top n...", FormUtility.TransparentImage(Resources.Workload));
-                popupMenu.Items.Add("Sample", FormUtility.TransparentImage(Resources.Workload));
+                popupMenu.Items.Add("Sample Schema", FormUtility.TransparentImage(Resources.Workload));
+                popupMenu.Items.Add("Analyze Schema", FormUtility.TransparentImage(Resources.Workload));
                 popupMenu.Items.Add("-");
-                popupMenu.Items.Add("Delete", FormUtility.TransparentImage(Resources.Asset));
+                popupMenu.Items.Add("Drop Schema", FormUtility.TransparentImage(Resources.Asset));
                 popupMenu.Items.Add("-");
                 popupMenu.Items.Add("Refresh", FormUtility.TransparentImage(Resources.ToolFind));
             }
@@ -257,7 +258,9 @@ namespace NTDLS.Katzebase.Management
             }
             else if (node.NodeType == Constants.ServerNodeType.Index)
             {
+                popupMenu.Items.Add("Analyze Index", FormUtility.TransparentImage(Resources.Asset));
                 popupMenu.Items.Add("Script Index", FormUtility.TransparentImage(Resources.Asset));
+                popupMenu.Items.Add("-");
                 popupMenu.Items.Add("Rebuild Index", FormUtility.TransparentImage(Resources.Asset));
                 popupMenu.Items.Add("Drop Index", FormUtility.TransparentImage(Resources.Asset));
                 popupMenu.Items.Add("-");
@@ -309,7 +312,15 @@ namespace NTDLS.Katzebase.Management
                     tabFilePage.Editor.SelectionStart = tabFilePage.Editor.Text.Length;
                     tabFilePage.ExecuteCurrentScriptAsync(false);
                 }
-                else if (e.ClickedItem?.Text == "Sample")
+                else if (e.ClickedItem?.Text == "Analyze Schema")
+                {
+                    var rootNode = TreeManagement.GetRootNode(node);
+                    var tabFilePage = CreateNewTab(FormUtility.GetNextNewFileName(), rootNode.ServerAddress, rootNode.ServerPort);
+                    tabFilePage.Editor.Text = $"ANALYZE SCHEMA {TreeManagement.FullSchemaPath(node)} --WITH (IncludePhysicalPages = true)\r\n";
+                    tabFilePage.Editor.SelectionStart = tabFilePage.Editor.Text.Length;
+                    tabFilePage.ExecuteCurrentScriptAsync(false);
+                }
+                else if (e.ClickedItem?.Text == "Sample Schema")
                 {
                     var rootNode = TreeManagement.GetRootNode(node);
                     var tabFilePage = CreateNewTab(FormUtility.GetNextNewFileName(), rootNode.ServerAddress, rootNode.ServerPort);
@@ -325,6 +336,15 @@ namespace NTDLS.Katzebase.Management
                     tabFilePage.Editor.Text = $"DROP INDEX {node.Text} ON {TreeManagement.FullSchemaPath(node)}\r\n";
                     tabFilePage.Editor.SelectionStart = tabFilePage.Editor.Text.Length;
                     tabFilePage.TabSplitContainer.SplitterDistance = 60;
+                }
+                else if (e.ClickedItem?.Text == "Analyze Index")
+                {
+                    var rootNode = TreeManagement.GetRootNode(node);
+                    var tabFilePage = CreateNewTab(FormUtility.GetNextNewFileName(), rootNode.ServerAddress, rootNode.ServerPort);
+                    tabFilePage.Editor.Text = $"ANALYZE INDEX {node.Text} ON {TreeManagement.FullSchemaPath(node)}\r\n";
+                    tabFilePage.Editor.SelectionStart = tabFilePage.Editor.Text.Length;
+                    tabFilePage.TabSplitContainer.SplitterDistance = 60;
+                    tabFilePage.ExecuteCurrentScriptAsync(false);
                 }
                 else if (e.ClickedItem?.Text == "Rebuild Index")
                 {
