@@ -65,6 +65,11 @@
 		</Keywords>
 
 		<Keywords color="KbConfig">
+
+			<Word>ShowCachePages</Word>
+			<Word>ShowSystemAggregateFunctions </Word>
+			<Word>ShowSystemProcedures </Word>
+			<Word>ShowSystemScalerFunctions </Word>
 			<Word>TraceWaitTimes</Word>
 			<Word>MinQueryThreads</Word>
 			<Word>MaxQueryThreads</Word>
