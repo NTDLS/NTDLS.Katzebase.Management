@@ -73,6 +73,17 @@ namespace NTDLS.Katzebase.Management
             _toolbarSyncTimer.Tick += _toolbarSyncTimer_Tick;
             _toolbarSyncTimer.Interval = 250;
             _toolbarSyncTimer.Start();
+
+            // Get the screen where the mouse cursor is located
+            var screen = Screen.FromPoint(Cursor.Position);
+
+            // Center the form on the screen
+            this.StartPosition = FormStartPosition.Manual;
+
+            this.Location = new Point(
+                screen.Bounds.X + (screen.Bounds.Width - this.Width) / 2,
+                screen.Bounds.Y + (screen.Bounds.Height - this.Height) / 2
+            );
         }
 
         private void _toolbarSyncTimer_Tick(object? sender, EventArgs e)
