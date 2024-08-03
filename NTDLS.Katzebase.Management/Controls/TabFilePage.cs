@@ -346,18 +346,9 @@ namespace NTDLS.Katzebase.Management.Controls
                     return;
                 }
 
-                bool hasResults = false;
-
-                foreach (var dgv in ResultsPanel.Controls.OfType<DoubleBufferedListReport>())
-                {
-                    //TODO: Add auto resize back.
-                    //dgv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
-                    hasResults = true;
-                }
-
                 if (TabControlParent.SelectedTab == tabFilePage)
                 {
-                    if (hasResults)
+                    if (ResultsPanel.Controls.OfType<DoubleBufferedListReport>().Any())
                     {
                         BottomTabControl.SelectedTab = ResultsTab;
                     }
