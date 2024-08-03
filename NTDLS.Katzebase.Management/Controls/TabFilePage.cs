@@ -47,6 +47,10 @@ namespace NTDLS.Katzebase.Management.Controls
             set
             {
                 TabSplitContainer.Panel2Collapsed = value;
+                if (value == false)
+                {
+                    TabSplitContainer.SplitterDistance = TabSplitContainer.Height / 2;
+                }
             }
         }
 
@@ -321,7 +325,7 @@ namespace NTDLS.Katzebase.Management.Controls
                 OutputTextbox.Text = "";
                 ExecutionExceptionCount = 0;
 
-                TabSplitContainer.Panel2Collapsed = false;
+                CollapseSplitter = false;
 
                 tabFilePage.Text = $"{tabFilePage.Text} | (executing)";
 
@@ -623,6 +627,8 @@ namespace NTDLS.Katzebase.Management.Controls
                         }
                     }
 
+                    ResizeListViewColumns(outputGrid);
+
                     outputGrid.ResumeLayout();
                     outputGrid.EndUpdate();
                 }
@@ -630,6 +636,37 @@ namespace NTDLS.Katzebase.Management.Controls
                 {
                     MessageBox.Show($"Error: {ex.Message}", KbConstants.FriendlyName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void ResizeListViewColumns(ListView listView)
+        {
+            const int maxWidth = 500;
+
+            foreach (ColumnHeader column in listView.Columns)
+            {
+                column.Width = -2; // Resize to fit content initially
+
+                // Get the width of the column header
+                int headerWidth = TextRenderer.MeasureText(column.Text, listView.Font).Width + 10; // Adding some padding
+
+                // Get the maximum width of the column content
+                int contentWidth = 0;
+                foreach (ListViewItem item in listView.Items)
+                {
+                    int cellWidth = TextRenderer.MeasureText(item.SubItems[column.Index].Text, listView.Font).Width + 10; // Adding some padding
+                    if (cellWidth > contentWidth)
+                    {
+                        contentWidth = cellWidth;
+                    }
+                }
+
+                // Determine the final column width
+                int finalWidth = Math.Max(headerWidth, contentWidth);
+                finalWidth = Math.Min(finalWidth, maxWidth);
+
+                // Set the column width
+                column.Width = finalWidth;
             }
         }
 
@@ -673,7 +710,7 @@ namespace NTDLS.Katzebase.Management.Controls
 
             ExecutionExceptionCount++;
 
-            TabSplitContainer.Panel2Collapsed = false;
+            CollapseSplitter = false;
 
             AppendToOutput($"Exception: {ex.Message}\r\n", Color.DarkRed);
         }
