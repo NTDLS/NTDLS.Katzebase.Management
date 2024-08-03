@@ -37,7 +37,8 @@ namespace NTDLS.Katzebase.Management.Controls
         {
             Orientation = Orientation.Horizontal,
             Dock = DockStyle.Fill,
-            Panel2Collapsed = true
+            Panel2Collapsed = true,
+            SplitterWidth = 10
         };
 
         public bool CollapseSplitter
@@ -152,11 +153,15 @@ namespace NTDLS.Katzebase.Management.Controls
             });
 
             newInstance.TabSplitContainer.Panel2.Controls.Add(newInstance.BottomTabControl);
+            newInstance.BottomTabControl.Dock = DockStyle.Fill;
             newInstance.BottomTabControl.TabPages.Add(newInstance.OutputTab); //Add output tab to bottom.
-            newInstance.OutputTab.Controls.Add(newInstance.OutputTextbox);
-            newInstance.BottomTabControl.TabPages.Add(newInstance.ResultsTab); //Add results tab to bottom.
 
+            newInstance.OutputTab.Controls.Add(newInstance.OutputTextbox);
+            newInstance.OutputTextbox.Dock = DockStyle.Fill;
+
+            newInstance.BottomTabControl.TabPages.Add(newInstance.ResultsTab); //Add results tab to bottom.
             newInstance.ResultsTab.Controls.Add(newInstance.ResultsPanel);
+            newInstance.ResultsPanel.Dock = DockStyle.Fill;
 
             newInstance.TabSplitContainer.SplitterMoved += TabSplitContainer_SplitterMoved;
             newInstance.TabSplitContainer.SplitterDistance = Preferences.Instance.ResultsSplitterDistance;
@@ -165,6 +170,8 @@ namespace NTDLS.Katzebase.Management.Controls
 
             return newInstance;
         }
+
+
 
         private static void TabSplitContainer_SplitterMoved(object? sender, SplitterEventArgs e)
         {
@@ -274,7 +281,7 @@ namespace NTDLS.Katzebase.Management.Controls
 
                 PreExecuteEvent(this);
 
-                foreach (var dgv in ResultsPanel.Controls.OfType<DataGridView>().ToList())
+                foreach (var dgv in ResultsPanel.Controls.OfType<DoubleBufferedListReport>().ToList())
                 {
                     dgv.Dispose();
                 }
@@ -335,13 +342,12 @@ namespace NTDLS.Katzebase.Management.Controls
                     return;
                 }
 
-                TabSplitContainer.Panel2Collapsed = false;
-
                 bool hasResults = false;
 
-                foreach (var dgv in ResultsPanel.Controls.OfType<DataGridView>())
+                foreach (var dgv in ResultsPanel.Controls.OfType<DoubleBufferedListReport>())
                 {
-                    dgv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+                    //TODO: Add auto resize back.
+                    //dgv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
                     hasResults = true;
                 }
 
@@ -503,63 +509,60 @@ namespace NTDLS.Katzebase.Management.Controls
             }
         }
 
-        private List<DataGridView> AddEvenlyDistributedDataGridViews(int numDataGridViews)
+        internal void EvenlyDistributedDataGridViews()
         {
-            var results = new List<DataGridView>();
+            var grids = ResultsPanel.Controls.OfType<DoubleBufferedListReport>().ToList();
 
-            foreach (var dgv in ResultsPanel.Controls.OfType<DataGridView>().ToList())
+            int spacing = 10;
+            int totalSpacing = (grids.Count - 1) * spacing;
+            int availableHeight = (BottomTabControl.Height - totalSpacing) - 20;
+            int gridTop = 0;
+
+            int gridHeight = availableHeight / 2;
+
+            if (gridHeight < 100)
+            {
+                gridHeight = 100;
+            }
+
+            foreach (var grid in grids)
+            {
+                //grid.Width = BottomTabControl.Width;
+
+                if (grids.Count > 1)
+                {
+                    grid.Dock = DockStyle.Top;
+                }
+                else
+                {
+                    grid.Dock = DockStyle.Fill;
+                }
+
+                grid.Top = gridTop;
+                grid.Height = availableHeight / grids.Count;
+
+                gridTop += grid.Height + spacing;
+            }
+        }
+
+        private List<DoubleBufferedListReport> AddEvenlyDistributedDataGridViews(int numDataGridViews)
+        {
+            var results = new List<DoubleBufferedListReport>();
+
+            foreach (var dgv in ResultsPanel.Controls.OfType<DoubleBufferedListReport>().ToList())
             {
                 dgv.Dispose();
             }
             ResultsPanel.Controls.Clear();
 
-            int spacing = 10;
-            int totalSpacing = (numDataGridViews - 1) * spacing;
-            int availableHeight = ResultsPanel.Height - totalSpacing;
-            int dataGridViewTop = 0;
-
-            int dataGridViewHeight = availableHeight / 2;
-
-            if (dataGridViewHeight < 100)
-            {
-                dataGridViewHeight = 100;
-            }
-
             for (int i = 0; i < numDataGridViews; i++)
             {
-                var dataGridView = new DataGridView()
-                {
-                    AllowUserToAddRows = false,
-                    AllowDrop = false,
-                    AllowUserToDeleteRows = false,
-                    ShowEditingIcon = false,
-                    ShowCellErrors = false,
-                    ShowCellToolTips = false,
-                    ReadOnly = true,
-                    AllowUserToOrderColumns = true,
-                    AllowUserToResizeRows = true,
-                    AllowUserToResizeColumns = true,
-                    Height = dataGridViewHeight
-                };
-
+                var dataGridView = new DoubleBufferedListReport();
                 results.Add(dataGridView);
-
-                dataGridView.Width = ResultsPanel.Width;
-                dataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-
-                if (numDataGridViews > 1)
-                {
-                    dataGridView.Dock = DockStyle.Top;
-                }
-                else
-                {
-                    dataGridView.Dock = DockStyle.Fill;
-                }
-
                 ResultsPanel.Controls.Add(dataGridView);
-
-                dataGridViewTop += dataGridView.Height + spacing;
             }
+
+            EvenlyDistributedDataGridViews();
 
             results.Reverse();
 
@@ -591,6 +594,7 @@ namespace NTDLS.Katzebase.Management.Controls
                     }
 
                     outputGrid.SuspendLayout();
+                    outputGrid.BeginUpdate();
 
                     foreach (var field in result.Fields)
                     {
@@ -608,7 +612,9 @@ namespace NTDLS.Katzebase.Management.Controls
                             rowValues.Add(fieldValue ?? string.Empty);
                         }
 
-                        outputGrid.Rows.Add(rowValues.ToArray());
+                        var item = new ListViewItem(rowValues.ToArray());
+
+                        outputGrid.Items.Add(item);
 
                         maxRowsToLoad--;
                         if (maxRowsToLoad <= 0)
@@ -618,6 +624,7 @@ namespace NTDLS.Katzebase.Management.Controls
                     }
 
                     outputGrid.ResumeLayout();
+                    outputGrid.EndUpdate();
                 }
                 catch (Exception ex)
                 {

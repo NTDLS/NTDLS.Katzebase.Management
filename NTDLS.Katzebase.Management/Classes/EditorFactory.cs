@@ -88,6 +88,12 @@ namespace NTDLS.Katzebase.Management.Classes
             TabControlParent.TabPages.Add(tabFilePage);
             TabControlParent.SelectedTab = tabFilePage;
 
+
+            tabFilePage.BottomTabControl.Resize += (object? sender, EventArgs e) =>
+            {
+                tabFilePage.EvenlyDistributedDataGridViews();
+            };
+
             return tabFilePage;
         }
 

@@ -1046,7 +1046,6 @@ namespace NTDLS.Katzebase.Management
 
         #endregion
 
-
         private void FormStudio_DragDrop(object sender, DragEventArgs e)
         {
             var files = e.Data?.GetData(DataFormats.FileDrop, false) as string[];
