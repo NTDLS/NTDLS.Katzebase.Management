@@ -1,4 +1,5 @@
 ﻿using ICSharpCode.AvalonEdit;
+using NTDLS.Helpers;
 using NTDLS.Katzebase.Client;
 using NTDLS.Katzebase.Client.Exceptions;
 using NTDLS.Katzebase.Client.Payloads;
@@ -485,22 +486,13 @@ namespace NTDLS.Katzebase.Management.Controls
                         else if (message.MessageType == KbConstants.KbMessageType.Error)
                             AppendToOutput($"{message.Text}", Color.DarkRed);
                     }
-
-                    if (string.IsNullOrWhiteSpace(result.ExceptionText) == false)
-                    {
-                        AppendToOutput($"{results.ExceptionText}", Color.DarkOrange);
-                    }
                 }
 
                 PopulateResultsGrid(results);
             }
-            catch (KbExceptionBase ex)
-            {
-                Group_OnException(group, ex);
-            }
             catch (Exception ex)
             {
-                Group_OnException(group, new KbExceptionBase(ex.Message));
+                Group_OnException(group, new KbExceptionBase((ex.GetRoot() ?? ex).Message));
             }
         }
 
@@ -703,7 +695,7 @@ namespace NTDLS.Katzebase.Management.Controls
 
             CollapseSplitter = false;
 
-            AppendToOutput($"Exception: {ex.Message}\r\n", Color.DarkRed);
+            AppendToOutput($"{ex.Message}\r\n", Color.DarkRed);
         }
 
         #endregion
