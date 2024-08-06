@@ -5,6 +5,7 @@ using NTDLS.Katzebase.Client.Exceptions;
 using NTDLS.Katzebase.Client.Payloads;
 using NTDLS.Katzebase.Management.Classes;
 using System.Text;
+using static NTDLS.Katzebase.Client.KbConstants;
 
 namespace NTDLS.Katzebase.Management.Controls
 {
@@ -273,7 +274,7 @@ namespace NTDLS.Katzebase.Management.Controls
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, KbConstants.FriendlyName);
+                        MessageBox.Show(ex.Message, FriendlyName);
                         IsScriptExecuting = false;
                         return;
                     }
@@ -309,7 +310,7 @@ namespace NTDLS.Katzebase.Management.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", KbConstants.FriendlyName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", FriendlyName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -333,7 +334,7 @@ namespace NTDLS.Katzebase.Management.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", KbConstants.FriendlyName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", FriendlyName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -368,7 +369,7 @@ namespace NTDLS.Katzebase.Management.Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", KbConstants.FriendlyName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", FriendlyName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -424,7 +425,7 @@ namespace NTDLS.Katzebase.Management.Controls
 
                         foreach (var wt in result.Metrics.Where(o => o.Value >= 0.5).OrderBy(o => o.Value))
                         {
-                            if (wt.MetricType == KbConstants.KbMetricType.Cumulative)
+                            if (wt.MetricType == KbMetricType.Cumulative)
                             {
                                 metricsTextItems.Add(new MetricsTextItem()
                                 {
@@ -479,12 +480,16 @@ namespace NTDLS.Katzebase.Management.Controls
 
                     foreach (var message in result.Messages)
                     {
-                        if (message.MessageType == KbConstants.KbMessageType.Verbose)
+                        if (message.MessageType == KbMessageType.Verbose)
                             AppendToOutput($"{message.Text}", Color.Black);
-                        else if (message.MessageType == KbConstants.KbMessageType.Warning)
+                        else if (message.MessageType == KbMessageType.Warning)
                             AppendToOutput($"{message.Text}", Color.DarkOrange);
-                        else if (message.MessageType == KbConstants.KbMessageType.Error)
+                        else if (message.MessageType == KbMessageType.Deadlock)
+                            AppendToOutput($"{message.Text}", Color.DarkOrchid);
+                        else if (message.MessageType == KbMessageType.Error)
                             AppendToOutput($"{message.Text}", Color.DarkRed);
+                        else if (message.MessageType == KbMessageType.Explain)
+                            AppendToOutput($"{message.Text}", Color.DarkBlue);
                     }
                 }
 
@@ -617,7 +622,7 @@ namespace NTDLS.Katzebase.Management.Controls
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error: {ex.Message}", KbConstants.FriendlyName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error: {ex.Message}", FriendlyName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
