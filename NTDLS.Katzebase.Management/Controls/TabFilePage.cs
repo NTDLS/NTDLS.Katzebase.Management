@@ -394,13 +394,13 @@ namespace NTDLS.Katzebase.Management.Controls
 
                 var scripts = KbTextUtility.SplitQueryBatchesOnGO(scriptText);
 
-                DateTime startTime = DateTime.UtcNow;
+                var startTime = DateTime.UtcNow;
 
                 KbQueryResultCollection results;
 
                 if (justExplain)
                 {
-                    throw new NotImplementedException("Explain is not implemented.");
+                    results = client.Query.ExplainQueries(scripts);
                 }
                 else
                 {

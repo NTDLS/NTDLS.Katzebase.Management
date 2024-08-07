@@ -16,8 +16,8 @@ namespace NTDLS.Katzebase.Management
         private readonly EditorFactory? _editorFactory = null;
         private readonly ImageList _treeImages = new();
         private readonly System.Windows.Forms.Timer _toolbarSyncTimer = new();
-        public string _lastusedServerAddress = string.Empty;
-        public int _lastusedServerPort;
+        public string _lastUsedServerAddress = string.Empty;
+        public int _lastUsedServerPort;
         private readonly string _firstLoadFilename = string.Empty;
 
         public FormStudio()
@@ -70,7 +70,7 @@ namespace NTDLS.Katzebase.Management
             Width = Preferences.Instance.FormStudioWidth;
             Height = Preferences.Instance.FormStudioHeight;
 
-            _toolbarSyncTimer.Tick += _toolbarSyncTimer_Tick;
+            _toolbarSyncTimer.Tick += ToolbarSyncTimer_Tick;
             _toolbarSyncTimer.Interval = 250;
             _toolbarSyncTimer.Start();
 
@@ -78,15 +78,15 @@ namespace NTDLS.Katzebase.Management
             var screen = Screen.FromPoint(Cursor.Position);
 
             // Center the form on the screen
-            this.StartPosition = FormStartPosition.Manual;
+            StartPosition = FormStartPosition.Manual;
 
-            this.Location = new Point(
+            Location = new Point(
                 screen.Bounds.X + (screen.Bounds.Width - this.Width) / 2,
                 screen.Bounds.Y + (screen.Bounds.Height - this.Height) / 2
             );
         }
 
-        private void _toolbarSyncTimer_Tick(object? sender, EventArgs e)
+        private void ToolbarSyncTimer_Tick(object? sender, EventArgs e)
         {
             try
             {
@@ -187,12 +187,12 @@ namespace NTDLS.Katzebase.Management
 
         #region Project Treeview Shenanigans.
 
-        private void FlattendTreeViewNodes(ref List<ServerTreeNode> flatList, ServerTreeNode parent)
+        private void FlattenedTreeViewNodes(ref List<ServerTreeNode> flatList, ServerTreeNode parent)
         {
             foreach (var node in parent.Nodes.Cast<ServerTreeNode>())
             {
                 flatList.Add(node);
-                FlattendTreeViewNodes(ref flatList, node);
+                FlattenedTreeViewNodes(ref flatList, node);
             }
         }
 
@@ -450,7 +450,7 @@ namespace NTDLS.Katzebase.Management
                 }
 
                 var popupMenu = new ContextMenuStrip();
-                popupMenu.ItemClicked += popupMenu_tabControlScripts_MouseUp_ItemClicked;
+                popupMenu.ItemClicked += PopupMenu_tabControlScripts_MouseUp_ItemClicked;
 
                 popupMenu.Tag = clickedTab;
 
@@ -465,7 +465,7 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void popupMenu_tabControlScripts_MouseUp_ItemClicked(object? sender, ToolStripItemClickedEventArgs e)
+        private void PopupMenu_tabControlScripts_MouseUp_ItemClicked(object? sender, ToolStripItemClickedEventArgs e)
         {
             var contextMenu = sender as ContextMenuStrip;
             if (contextMenu == null)
@@ -515,7 +515,7 @@ namespace NTDLS.Katzebase.Management
                 var tabsToClose = new List<TabFilePage>();
 
                 //Minimize the number of "SelectedIndexChanged" events that get fired.
-                //We get a big ol' thread exception when we dont do  Looks like an internal control exception.
+                //We get a big ol' thread exception when we don't do  Looks like an internal control exception.
                 tabControlBody.SelectedTab = clickedTab;
                 System.Windows.Forms.Application.DoEvents(); //Make sure the message pump can actually select the tab before we start closing.
 
@@ -572,8 +572,8 @@ namespace NTDLS.Katzebase.Management
         {
             if (string.IsNullOrWhiteSpace(serverAddress))
             {
-                serverAddress = _lastusedServerAddress;
-                serverPort = _lastusedServerPort;
+                serverAddress = _lastUsedServerAddress;
+                serverPort = _lastUsedServerPort;
             }
 
             return TabFilePage.Create(_editorFactory.EnsureNotNull(), tabText, serverAddress, serverPort);
@@ -601,10 +601,10 @@ namespace NTDLS.Katzebase.Management
                 using var form = new FormConnect();
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    _lastusedServerAddress = form.ServerHost;
-                    _lastusedServerPort = form.ServerPort;
+                    _lastUsedServerAddress = form.ServerHost;
+                    _lastUsedServerPort = form.ServerPort;
 
-                    TreeManagement.PopulateServer(treeViewProject, _lastusedServerAddress, _lastusedServerPort);
+                    TreeManagement.PopulateServer(treeViewProject, _lastUsedServerAddress, _lastUsedServerPort);
 
                     foreach (TreeNode node in treeViewProject.Nodes)
                     {
@@ -635,7 +635,7 @@ namespace NTDLS.Katzebase.Management
         bool CloseAllTabs()
         {
             //Minimize the number of "SelectedIndexChanged" events that get fired.
-            //We get a big ol' thread exception when we dont do  Looks like an internal control exception.
+            //We get a big ol' thread exception when we don't do  Looks like an internal control exception.
             tabControlBody.SelectedIndex = 0;
             Application.DoEvents(); //Make sure the message pump can actually select the tab before we start closing.
 
@@ -659,7 +659,7 @@ namespace NTDLS.Katzebase.Management
         }
 
         /// <summary>
-        /// Usser friendly tab close.
+        /// User friendly tab close.
         /// </summary>
         /// <param name="tab"></param>
         private bool CloseTab(TabFilePage? tab)
@@ -707,12 +707,12 @@ namespace NTDLS.Katzebase.Management
 
         #region Toolbar Clicks.
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenTab();
         }
 
-        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void SaveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var selection = CurrentTabFilePage();
             if (selection != null)
@@ -721,7 +721,7 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var selection = CurrentTabFilePage();
             if (selection != null)
@@ -730,33 +730,33 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void toolStripButtonOpen_Click(object sender, EventArgs e)
+        private void ToolStripButtonOpen_Click(object sender, EventArgs e)
         {
             OpenTab();
         }
 
-        private void toolStripButtonStop_Click(object sender, EventArgs e)
+        private void ToolStripButtonStop_Click(object sender, EventArgs e)
         {
             CurrentTabFilePage()?.ExecuteStopCommand();
         }
 
-        private void toolStripButtonExecuteScript_Click(object sender, EventArgs e)
+        private void ToolStripButtonExecuteScript_Click(object sender, EventArgs e)
         {
             CurrentTabFilePage()?.ExecuteCurrentScriptAsync(false);
         }
 
-        private void toolStripButtonExplainPlan_Click(object sender, EventArgs e)
+        private void ToolStripButtonExplainPlan_Click(object sender, EventArgs e)
         {
-            CurrentTabFilePage()?.ExecuteCurrentScriptAsync(false);
+            CurrentTabFilePage()?.ExecuteCurrentScriptAsync(true);
         }
 
-        private void toolStripButtonCloseCurrentTab_Click(object sender, EventArgs e)
+        private void ToolStripButtonCloseCurrentTab_Click(object sender, EventArgs e)
         {
             var selection = CurrentTabFilePage();
             CloseTab(selection);
         }
 
-        private void toolStripButtonSave_Click(object sender, EventArgs e)
+        private void ToolStripButtonSave_Click(object sender, EventArgs e)
         {
             var selection = CurrentTabFilePage();
             if (selection != null)
@@ -830,8 +830,7 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-
-        private void toolStripButtonSaveAll_Click(object sender, EventArgs e)
+        private void ToolStripButtonSaveAll_Click(object sender, EventArgs e)
         {
             foreach (var tabFilePage in tabControlBody.TabPages.Cast<TabFilePage>())
             {
@@ -842,47 +841,47 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void toolStripButtonFind_Click(object sender, EventArgs e)
+        private void ToolStripButtonFind_Click(object sender, EventArgs e)
         {
             ShowFind();
         }
 
-        private void toolStripButtonReplace_Click(object sender, EventArgs e)
+        private void ToolStripButtonReplace_Click(object sender, EventArgs e)
         {
             ShowReplace();
         }
 
-        private void toolStripButtonRedo_Click(object sender, EventArgs e)
+        private void ToolStripButtonRedo_Click(object sender, EventArgs e)
         {
             var tabFilePage = CurrentTabFilePage();
             tabFilePage?.Editor.Redo();
         }
 
-        private void toolStripButtonUndo_Click(object sender, EventArgs e)
+        private void ToolStripButtonUndo_Click(object sender, EventArgs e)
         {
             var tabFilePage = CurrentTabFilePage();
             tabFilePage?.Editor.Undo();
         }
 
-        private void toolStripButtonCut_Click(object sender, EventArgs e)
+        private void ToolStripButtonCut_Click(object sender, EventArgs e)
         {
             var tabFilePage = CurrentTabFilePage();
             tabFilePage?.Editor.Cut();
         }
 
-        private void toolStripButtonCopy_Click(object sender, EventArgs e)
+        private void ToolStripButtonCopy_Click(object sender, EventArgs e)
         {
             var tabFilePage = CurrentTabFilePage();
             tabFilePage?.Editor.Copy();
         }
 
-        private void toolStripButtonPaste_Click(object sender, EventArgs e)
+        private void ToolStripButtonPaste_Click(object sender, EventArgs e)
         {
             var tabFilePage = CurrentTabFilePage();
             tabFilePage?.Editor.Paste();
         }
 
-        private void toolStripButtonIncreaseIndent_Click(object sender, EventArgs e)
+        private void ToolStripButtonIncreaseIndent_Click(object sender, EventArgs e)
         {
             IncreaseCurrentTabIndent();
         }
@@ -896,7 +895,7 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void toolStripButtonDecreaseIndent_Click(object sender, EventArgs e)
+        private void ToolStripButtonDecreaseIndent_Click(object sender, EventArgs e)
         {
             DecreaseCurrentTabIndent();
         }
@@ -911,7 +910,7 @@ namespace NTDLS.Katzebase.Management
             splitContainerMacros.Panel2Collapsed = !splitContainerMacros.Panel2Collapsed;
         }
 
-        private void toolStripButtonProject_Click(object sender, EventArgs e)
+        private void ToolStripButtonProject_Click(object sender, EventArgs e)
         {
             splitContainerObjectExplorer.Panel1Collapsed = !splitContainerObjectExplorer.Panel1Collapsed;
         }
@@ -950,7 +949,7 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void toolStripButtonOutput_Click(object sender, EventArgs e)
+        private void ToolStripButtonOutput_Click(object sender, EventArgs e)
         {
             var tab = CurrentTabFilePage();
             if (tab != null)
@@ -959,7 +958,7 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void toolStripButtonSnippets_Click(object sender, EventArgs e)
+        private void ToolStripButtonSnippets_Click(object sender, EventArgs e)
         {
             var tabFilePage = CurrentTabFilePage();
             if (tabFilePage != null)
@@ -979,7 +978,7 @@ namespace NTDLS.Katzebase.Management
 
         #region Form Menu.
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var selection = CurrentTabFilePage();
             if (selection == null)
@@ -989,13 +988,13 @@ namespace NTDLS.Katzebase.Management
             SaveTab(selection);
         }
 
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var selection = CurrentTabFilePage();
             CloseTab(selection);
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var form = new FormAbout())
             {
@@ -1003,7 +1002,7 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void saveAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (var tabFilePage in tabControlBody.TabPages.Cast<TabFilePage>())
             {
@@ -1014,7 +1013,7 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void toolStripButtonNewFile_Click(object sender, EventArgs e)
+        private void ToolStripButtonNewFile_Click(object sender, EventArgs e)
         {
             try
             {
@@ -1028,22 +1027,22 @@ namespace NTDLS.Katzebase.Management
             }
         }
 
-        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ConnectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Connect();
         }
 
-        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DisconnectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Disconnect();
         }
 
-        private void closeAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CloseAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CloseAllTabs();
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
         }
@@ -1097,7 +1096,7 @@ namespace NTDLS.Katzebase.Management
             return string.Empty;
         }
 
-        private void treeViewProject_ItemDrag(object sender, ItemDragEventArgs e)
+        private void TreeViewProject_ItemDrag(object sender, ItemDragEventArgs e)
         {
             if (e.Item is TreeNode node)
             {
@@ -1116,7 +1115,7 @@ namespace NTDLS.Katzebase.Management
             Preferences.Instance.FormStudioHeight = Height;
         }
 
-        private void splitContainerProject_SplitterMoved(object sender, SplitterEventArgs e)
+        private void SplitContainerProject_SplitterMoved(object sender, SplitterEventArgs e)
         {
             Preferences.Instance.ObjectExplorerSplitterDistance = splitContainerObjectExplorer.SplitterDistance;
         }

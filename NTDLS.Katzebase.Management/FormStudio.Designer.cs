@@ -114,7 +114,7 @@
             splitContainerObjectExplorer.Size = new Size(1184, 712);
             splitContainerObjectExplorer.SplitterDistance = 320;
             splitContainerObjectExplorer.TabIndex = 0;
-            splitContainerObjectExplorer.SplitterMoved += splitContainerProject_SplitterMoved;
+            splitContainerObjectExplorer.SplitterMoved += SplitContainerProject_SplitterMoved;
             // 
             // treeViewProject
             // 
@@ -122,7 +122,7 @@
             treeViewProject.Name = "treeViewProject";
             treeViewProject.Size = new Size(256, 292);
             treeViewProject.TabIndex = 0;
-            treeViewProject.ItemDrag += treeViewProject_ItemDrag;
+            treeViewProject.ItemDrag += TreeViewProject_ItemDrag;
             treeViewProject.DragDrop += FormStudio_DragDrop;
             // 
             // splitContainerMacros
@@ -196,7 +196,7 @@
             toolStripButtonNewFile.Name = "toolStripButtonNewFile";
             toolStripButtonNewFile.Size = new Size(23, 22);
             toolStripButtonNewFile.Text = "New File";
-            toolStripButtonNewFile.Click += toolStripButtonNewFile_Click;
+            toolStripButtonNewFile.Click += ToolStripButtonNewFile_Click;
             // 
             // toolStripButtonOpen
             // 
@@ -206,7 +206,7 @@
             toolStripButtonOpen.Name = "toolStripButtonOpen";
             toolStripButtonOpen.Size = new Size(23, 22);
             toolStripButtonOpen.Text = "Open";
-            toolStripButtonOpen.Click += toolStripButtonOpen_Click;
+            toolStripButtonOpen.Click += ToolStripButtonOpen_Click;
             // 
             // toolStripButtonSave
             // 
@@ -216,7 +216,7 @@
             toolStripButtonSave.Name = "toolStripButtonSave";
             toolStripButtonSave.Size = new Size(23, 22);
             toolStripButtonSave.Text = "Save";
-            toolStripButtonSave.Click += toolStripButtonSave_Click;
+            toolStripButtonSave.Click += ToolStripButtonSave_Click;
             // 
             // toolStripButtonSaveAll
             // 
@@ -226,7 +226,7 @@
             toolStripButtonSaveAll.Name = "toolStripButtonSaveAll";
             toolStripButtonSaveAll.Size = new Size(23, 22);
             toolStripButtonSaveAll.Text = "Save All";
-            toolStripButtonSaveAll.Click += toolStripButtonSaveAll_Click;
+            toolStripButtonSaveAll.Click += ToolStripButtonSaveAll_Click;
             // 
             // toolStripButtonCloseCurrentTab
             // 
@@ -236,7 +236,7 @@
             toolStripButtonCloseCurrentTab.Name = "toolStripButtonCloseCurrentTab";
             toolStripButtonCloseCurrentTab.Size = new Size(23, 22);
             toolStripButtonCloseCurrentTab.Text = "Close Current Tab";
-            toolStripButtonCloseCurrentTab.Click += toolStripButtonCloseCurrentTab_Click;
+            toolStripButtonCloseCurrentTab.Click += ToolStripButtonCloseCurrentTab_Click;
             // 
             // toolStripSeparator1
             // 
@@ -251,7 +251,7 @@
             toolStripButtonExplainPlan.Name = "toolStripButtonExplainPlan";
             toolStripButtonExplainPlan.Size = new Size(23, 22);
             toolStripButtonExplainPlan.Text = "Explain Plan";
-            toolStripButtonExplainPlan.Click += toolStripButtonExplainPlan_Click;
+            toolStripButtonExplainPlan.Click += ToolStripButtonExplainPlan_Click;
             // 
             // toolStripButtonExecuteScript
             // 
@@ -261,7 +261,7 @@
             toolStripButtonExecuteScript.Name = "toolStripButtonExecuteScript";
             toolStripButtonExecuteScript.Size = new Size(23, 22);
             toolStripButtonExecuteScript.Text = "Execute Script";
-            toolStripButtonExecuteScript.Click += toolStripButtonExecuteScript_Click;
+            toolStripButtonExecuteScript.Click += ToolStripButtonExecuteScript_Click;
             // 
             // toolStripButtonStop
             // 
@@ -271,7 +271,7 @@
             toolStripButtonStop.Name = "toolStripButtonStop";
             toolStripButtonStop.Size = new Size(23, 22);
             toolStripButtonStop.Text = "Stop";
-            toolStripButtonStop.Click += toolStripButtonStop_Click;
+            toolStripButtonStop.Click += ToolStripButtonStop_Click;
             // 
             // toolStripSeparator2
             // 
@@ -286,7 +286,7 @@
             toolStripButtonFind.Name = "toolStripButtonFind";
             toolStripButtonFind.Size = new Size(23, 22);
             toolStripButtonFind.Text = "Find";
-            toolStripButtonFind.Click += toolStripButtonFind_Click;
+            toolStripButtonFind.Click += ToolStripButtonFind_Click;
             // 
             // toolStripButtonReplace
             // 
@@ -296,7 +296,7 @@
             toolStripButtonReplace.Name = "toolStripButtonReplace";
             toolStripButtonReplace.Size = new Size(23, 22);
             toolStripButtonReplace.Text = "Replace";
-            toolStripButtonReplace.Click += toolStripButtonReplace_Click;
+            toolStripButtonReplace.Click += ToolStripButtonReplace_Click;
             // 
             // toolStripSeparator3
             // 
@@ -311,7 +311,7 @@
             toolStripButtonUndo.Name = "toolStripButtonUndo";
             toolStripButtonUndo.Size = new Size(23, 22);
             toolStripButtonUndo.Text = "Undo";
-            toolStripButtonUndo.Click += toolStripButtonUndo_Click;
+            toolStripButtonUndo.Click += ToolStripButtonUndo_Click;
             // 
             // toolStripButtonRedo
             // 
@@ -321,7 +321,7 @@
             toolStripButtonRedo.Name = "toolStripButtonRedo";
             toolStripButtonRedo.Size = new Size(23, 22);
             toolStripButtonRedo.Text = "Redo";
-            toolStripButtonRedo.Click += toolStripButtonRedo_Click;
+            toolStripButtonRedo.Click += ToolStripButtonRedo_Click;
             // 
             // toolStripSeparator4
             // 
@@ -336,7 +336,7 @@
             toolStripButtonCut.Name = "toolStripButtonCut";
             toolStripButtonCut.Size = new Size(23, 22);
             toolStripButtonCut.Text = "Cut";
-            toolStripButtonCut.Click += toolStripButtonCut_Click;
+            toolStripButtonCut.Click += ToolStripButtonCut_Click;
             // 
             // toolStripButtonCopy
             // 
@@ -346,7 +346,7 @@
             toolStripButtonCopy.Name = "toolStripButtonCopy";
             toolStripButtonCopy.Size = new Size(23, 22);
             toolStripButtonCopy.Text = "Copy";
-            toolStripButtonCopy.Click += toolStripButtonCopy_Click;
+            toolStripButtonCopy.Click += ToolStripButtonCopy_Click;
             // 
             // toolStripButtonPaste
             // 
@@ -356,7 +356,7 @@
             toolStripButtonPaste.Name = "toolStripButtonPaste";
             toolStripButtonPaste.Size = new Size(23, 22);
             toolStripButtonPaste.Text = "Paste";
-            toolStripButtonPaste.Click += toolStripButtonPaste_Click;
+            toolStripButtonPaste.Click += ToolStripButtonPaste_Click;
             // 
             // toolStripSeparator5
             // 
@@ -371,7 +371,7 @@
             toolStripButtonDecreaseIndent.Name = "toolStripButtonDecreaseIndent";
             toolStripButtonDecreaseIndent.Size = new Size(23, 22);
             toolStripButtonDecreaseIndent.Text = "Decrease Indent";
-            toolStripButtonDecreaseIndent.Click += toolStripButtonDecreaseIndent_Click;
+            toolStripButtonDecreaseIndent.Click += ToolStripButtonDecreaseIndent_Click;
             // 
             // toolStripButtonIncreaseIndent
             // 
@@ -381,7 +381,7 @@
             toolStripButtonIncreaseIndent.Name = "toolStripButtonIncreaseIndent";
             toolStripButtonIncreaseIndent.Size = new Size(23, 22);
             toolStripButtonIncreaseIndent.Text = "Increase Indent";
-            toolStripButtonIncreaseIndent.Click += toolStripButtonIncreaseIndent_Click;
+            toolStripButtonIncreaseIndent.Click += ToolStripButtonIncreaseIndent_Click;
             // 
             // toolStripSeparator6
             // 
@@ -396,7 +396,7 @@
             toolStripButtonProject.Name = "toolStripButtonProject";
             toolStripButtonProject.Size = new Size(23, 22);
             toolStripButtonProject.Text = "Toggle Project";
-            toolStripButtonProject.Click += toolStripButtonProject_Click;
+            toolStripButtonProject.Click += ToolStripButtonProject_Click;
             // 
             // toolStripButtonOutput
             // 
@@ -406,7 +406,7 @@
             toolStripButtonOutput.Name = "toolStripButtonOutput";
             toolStripButtonOutput.Size = new Size(23, 22);
             toolStripButtonOutput.Text = "Toggle Output";
-            toolStripButtonOutput.Click += toolStripButtonOutput_Click;
+            toolStripButtonOutput.Click += ToolStripButtonOutput_Click;
             // 
             // toolStripButtonMacros
             // 
@@ -433,7 +433,7 @@
             toolStripButtonSnippets.Size = new Size(23, 22);
             toolStripButtonSnippets.Text = "Snippets";
             toolStripButtonSnippets.Visible = false;
-            toolStripButtonSnippets.Click += toolStripButtonSnippets_Click;
+            toolStripButtonSnippets.Click += ToolStripButtonSnippets_Click;
             // 
             // menuStripMain
             // 
@@ -456,14 +456,14 @@
             connectToolStripMenuItem.Name = "connectToolStripMenuItem";
             connectToolStripMenuItem.Size = new Size(133, 22);
             connectToolStripMenuItem.Text = "Connect";
-            connectToolStripMenuItem.Click += connectToolStripMenuItem_Click;
+            connectToolStripMenuItem.Click += ConnectToolStripMenuItem_Click;
             // 
             // closeProjectToolStripMenuItem
             // 
             closeProjectToolStripMenuItem.Name = "closeProjectToolStripMenuItem";
             closeProjectToolStripMenuItem.Size = new Size(133, 22);
             closeProjectToolStripMenuItem.Text = "Disconnect";
-            closeProjectToolStripMenuItem.Click += disconnectToolStripMenuItem_Click;
+            closeProjectToolStripMenuItem.Click += DisconnectToolStripMenuItem_Click;
             // 
             // toolStripMenuItem2
             // 
@@ -475,28 +475,28 @@
             openToolStripMenuItem.Name = "openToolStripMenuItem";
             openToolStripMenuItem.Size = new Size(133, 22);
             openToolStripMenuItem.Text = "Open";
-            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
+            openToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem1
             // 
             saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
             saveToolStripMenuItem1.Size = new Size(133, 22);
             saveToolStripMenuItem1.Text = "Save";
-            saveToolStripMenuItem1.Click += saveToolStripMenuItem1_Click;
+            saveToolStripMenuItem1.Click += SaveToolStripMenuItem1_Click;
             // 
             // saveAsToolStripMenuItem
             // 
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             saveAsToolStripMenuItem.Size = new Size(133, 22);
             saveAsToolStripMenuItem.Text = "Save As";
-            saveAsToolStripMenuItem.Click += saveAsToolStripMenuItem_Click;
+            saveAsToolStripMenuItem.Click += SaveAsToolStripMenuItem_Click;
             // 
             // saveAllToolStripMenuItem
             // 
             saveAllToolStripMenuItem.Name = "saveAllToolStripMenuItem";
             saveAllToolStripMenuItem.Size = new Size(133, 22);
             saveAllToolStripMenuItem.Text = "Save All";
-            saveAllToolStripMenuItem.Click += saveAllToolStripMenuItem_Click;
+            saveAllToolStripMenuItem.Click += SaveAllToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
@@ -508,7 +508,7 @@
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             exitToolStripMenuItem.Size = new Size(133, 22);
             exitToolStripMenuItem.Text = "Exit";
-            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
+            exitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
             // documentToolStripMenuItem
             // 
@@ -522,21 +522,21 @@
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.Size = new Size(120, 22);
             saveToolStripMenuItem.Text = "Save";
-            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
+            saveToolStripMenuItem.Click += SaveToolStripMenuItem_Click;
             // 
             // closeToolStripMenuItem
             // 
             closeToolStripMenuItem.Name = "closeToolStripMenuItem";
             closeToolStripMenuItem.Size = new Size(120, 22);
             closeToolStripMenuItem.Text = "Close";
-            closeToolStripMenuItem.Click += closeToolStripMenuItem_Click;
+            closeToolStripMenuItem.Click += CloseToolStripMenuItem_Click;
             // 
             // closeAllToolStripMenuItem
             // 
             closeAllToolStripMenuItem.Name = "closeAllToolStripMenuItem";
             closeAllToolStripMenuItem.Size = new Size(120, 22);
             closeAllToolStripMenuItem.Text = "Close All";
-            closeAllToolStripMenuItem.Click += closeAllToolStripMenuItem_Click;
+            closeAllToolStripMenuItem.Click += CloseAllToolStripMenuItem_Click;
             // 
             // helpToolStripMenuItem
             // 
@@ -550,7 +550,7 @@
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             aboutToolStripMenuItem.Size = new Size(107, 22);
             aboutToolStripMenuItem.Text = "About";
-            aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
+            aboutToolStripMenuItem.Click += AboutToolStripMenuItem_Click;
             // 
             // FormStudio
             // 
