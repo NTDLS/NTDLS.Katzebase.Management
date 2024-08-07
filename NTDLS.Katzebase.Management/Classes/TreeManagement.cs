@@ -9,6 +9,7 @@ namespace NTDLS.Katzebase.Management.Classes
         public static void PopulateServer(TreeView treeView, string serverAddress, int serverPort)
         {
             var client = new KbClient(serverAddress, serverPort, "Katzebase.UI");
+            client.QueryTimeout = TimeSpan.FromDays(10); //TODO: Make this configurable.
 
             string key = serverAddress.ToLower();
 

@@ -351,6 +351,8 @@ namespace NTDLS.Katzebase.Management
                     var rootNode = TreeManagement.GetRootNode(node);
                     using (var client = new KbClient(rootNode.ServerAddress, rootNode.ServerPort))
                     {
+                        client.QueryTimeout = TimeSpan.FromDays(10); //TODO: Make this configurable.
+
                         var result = client.Schema.Indexes.Get(TreeManagement.FullSchemaPath(node), node.Text);
                         if (result != null && result.Index != null)
                         {
@@ -371,6 +373,8 @@ namespace NTDLS.Katzebase.Management
                     var rootNode = TreeManagement.GetRootNode(node);
                     using (var client = new KbClient(rootNode.ServerAddress, rootNode.ServerPort))
                     {
+                        client.QueryTimeout = TimeSpan.FromDays(10); //TODO: Make this configurable.
+
                         var result = client.Schema.Indexes.Get(TreeManagement.FullSchemaPath(node), node.Text);
                         if (result != null && result.Index != null)
                         {

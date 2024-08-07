@@ -132,6 +132,7 @@ namespace NTDLS.Katzebase.Management.Controls
             if (string.IsNullOrEmpty(serverHost) == false)
             {
                 Client = new KbClient(serverHost, serverPort);
+                Client.QueryTimeout = TimeSpan.FromDays(10); //TODO: Make this configurable.
                 Client.OnDisconnected += Client_OnDisconnected;
             }
         }
@@ -271,6 +272,7 @@ namespace NTDLS.Katzebase.Management.Controls
                         }
 
                         Client = new KbClient(form.ServerHost, form.ServerPort);
+                        Client.QueryTimeout = TimeSpan.FromDays(10); //TODO: Make this configurable.
                     }
                     catch (Exception ex)
                     {
