@@ -668,7 +668,10 @@ namespace NTDLS.Katzebase.Management
             {
                 if (tab.IsSaved == false)
                 {
-                    var messageBoxResult = MessageBox.Show("Save \"" + tab.Text.Trim(new char[] { '*' }) + "\" before closing?", "Save File?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    var messageBoxResult = MessageBox.Show(
+                        "Save \"" + tab.Text.Trim(['*']) + "\" before closing?", "Save File?",
+                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
                     if (messageBoxResult == DialogResult.Yes)
                     {
                         if (SaveTab(tab) == false)

@@ -3,8 +3,10 @@ using NTDLS.Helpers;
 using NTDLS.Katzebase.Client;
 using NTDLS.Katzebase.Client.Exceptions;
 using NTDLS.Katzebase.Client.Payloads;
+using NTDLS.Katzebase.Client.Payloads.RoundTrip;
 using NTDLS.Katzebase.Management.Classes;
 using System.Text;
+using System.Windows.Forms;
 using static NTDLS.Katzebase.Client.KbConstants;
 
 namespace NTDLS.Katzebase.Management.Controls
@@ -383,6 +385,92 @@ namespace NTDLS.Katzebase.Management.Controls
             public string Name { get; set; } = string.Empty;
         }
 
+        private void WriteWarnings(Dictionary<KbTransactionWarning, HashSet<string>> warnings)
+        {
+            foreach (var warning in warnings)
+            {
+                AppendToOutput($"Warning: {warning.Key}", Color.DarkOrange);
+                foreach (var message in warning.Value)
+                {
+                    AppendToOutput($"    > {message}", Color.DarkOrange);
+                }
+            }
+        }
+
+        private void WriteMessages(List<KbQueryResultMessage> messages)
+        {
+            foreach (var message in messages)
+            {
+                if (message.MessageType == KbMessageType.Verbose)
+                    AppendToOutput($"{message.Text}", Color.Black);
+                else if (message.MessageType == KbMessageType.Warning)
+                    AppendToOutput($"{message.Text}", Color.DarkOrange);
+                else if (message.MessageType == KbMessageType.Deadlock)
+                    AppendToOutput($"{message.Text}", Color.DarkBlue);
+                else if (message.MessageType == KbMessageType.Error)
+                    AppendToOutput($"{message.Text}", Color.DarkRed);
+                else if (message.MessageType == KbMessageType.Explain)
+                    AppendToOutput($"{message.Text}", Color.DarkGreen);
+            }
+        }
+        private void WriteMetrics(KbMetricCollection? metrics)
+        {
+            if (metrics == null || metrics.Count == 0)
+            {
+                return;
+            }
+
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("Metrics {");
+
+            var metricsTextItems = new List<MetricsTextItem>();
+
+            foreach (var wt in metrics.Where(o => o.Value >= 0.5).OrderBy(o => o.Value))
+            {
+                if (wt.MetricType == KbMetricType.Cumulative)
+                {
+                    metricsTextItems.Add(new MetricsTextItem()
+                    {
+                        Name = wt.Name,
+                        Value = $"Value: {wt.Value:n0}",
+                        Average = $"Average: {wt.Value / wt.Count:n2}",
+                        Count = $"Count: {wt.Count:n0}"
+                    });
+                }
+                else
+                {
+                    metricsTextItems.Add(new MetricsTextItem() { Name = wt.Name, Value = $"Value: {wt.Value:n0}", });
+                }
+            }
+
+            if (metricsTextItems.Count > 0)
+            {
+                int maxValueLength = metricsTextItems.Max(o => o.Value.Length);
+                int maxAverageLength = metricsTextItems.Max(o => o.Average.Length);
+                int maxCountLength = metricsTextItems.Max(o => o.Count.Length);
+
+                foreach (var metricsTextItem in metricsTextItems)
+                {
+                    int diff = (maxValueLength - metricsTextItem.Value.Length) + 1;
+                    string metricText = $"{metricsTextItem.Value}{new string(' ', diff)}";
+
+                    diff = (maxCountLength - metricsTextItem.Count.Length) + 1;
+                    metricText += $"{metricsTextItem.Count}{new string(' ', diff)}";
+
+                    diff = (maxAverageLength - metricsTextItem.Average.Length) + 1;
+                    metricText += $"{metricsTextItem.Average}{new string(' ', diff)}";
+
+                    metricText += metricsTextItem.Name;
+
+                    stringBuilder.AppendLine($"  {metricText}");
+                }
+            }
+
+            stringBuilder.AppendLine($"}}");
+
+            AppendToOutput(stringBuilder.ToString(), Color.DarkBlue);
+        }
+
         private void ExecuteCurrentScriptSync(KbClient client, string scriptText, bool justExplain)
         {
             var group = new WorkloadGroup();
@@ -396,106 +484,38 @@ namespace NTDLS.Katzebase.Management.Controls
 
                 var startTime = DateTime.UtcNow;
 
-                KbQueryResultCollection results;
-
                 if (justExplain)
                 {
-                    results = client.Query.ExplainQueries(scripts);
+                    var results = client.Query.ExplainQueries(scripts);
+
+                    int batchNumber = 1;
+                    foreach (var result in results.Collection)
+                    {
+                        AppendToOutput($"Batch {batchNumber:n0} of {results.Collection.Count} completed in {result.Duration:N0}ms. ({result.RowCount} rows affected)", Color.Black);
+                        batchNumber++;
+
+                        WriteMetrics(result.Metrics);
+                        WriteWarnings(result.Warnings);
+                        WriteMessages(result.Messages);
+                    }
                 }
                 else
                 {
-                    results = client.Query.ExecuteQueries(scripts);
+                    var results = client.Query.ExecuteQueries(scripts);
+
+                    int batchNumber = 1;
+                    foreach (var result in results.Collection)
+                    {
+                        AppendToOutput($"Batch {batchNumber:n0} of {results.Collection.Count} completed in {result.Duration:N0}ms. ({result.RowCount} rows affected)", Color.Black);
+                        batchNumber++;
+
+                        WriteMetrics(result.Metrics);
+                        WriteWarnings(result.Warnings);
+                        WriteMessages(result.Messages);
+                    }
+
+                    PopulateResultsGrid(results);
                 }
-
-                int batchNumber = 1;
-                foreach (var result in results.Collection)
-                {
-                    AppendToOutput($"Batch {batchNumber:n0} of {results.Collection.Count} completed in {result.Duration:N0}ms. ({result.RowCount} rows affected)", Color.Black);
-                    batchNumber++;
-
-                    if (justExplain && string.IsNullOrWhiteSpace(result.Explanation) == false)
-                    {
-                        AppendToOutput(result.Explanation, Color.DarkGreen);
-                    }
-
-                    if (result.Metrics?.Count > 0)
-                    {
-                        var stringBuilder = new StringBuilder();
-                        stringBuilder.AppendLine("Metrics {");
-
-                        var metricsTextItems = new List<MetricsTextItem>();
-
-                        foreach (var wt in result.Metrics.Where(o => o.Value >= 0.5).OrderBy(o => o.Value))
-                        {
-                            if (wt.MetricType == KbMetricType.Cumulative)
-                            {
-                                metricsTextItems.Add(new MetricsTextItem()
-                                {
-                                    Name = wt.Name,
-                                    Value = $"Value: {wt.Value:n0}",
-                                    Average = $"Average: {wt.Value / wt.Count:n2}",
-                                    Count = $"Count: {wt.Count:n0}"
-                                });
-                            }
-                            else
-                            {
-                                metricsTextItems.Add(new MetricsTextItem() { Name = wt.Name, Value = $"Value: {wt.Value:n0}", });
-                            }
-                        }
-
-                        if (metricsTextItems.Count > 0)
-                        {
-                            int maxValueLength = metricsTextItems.Max(o => o.Value.Length);
-                            int maxAverageLength = metricsTextItems.Max(o => o.Average.Length);
-                            int maxCountLength = metricsTextItems.Max(o => o.Count.Length);
-
-                            foreach (var metricsTextItem in metricsTextItems)
-                            {
-                                int diff = (maxValueLength - metricsTextItem.Value.Length) + 1;
-                                string metricText = $"{metricsTextItem.Value}{new string(' ', diff)}";
-
-                                diff = (maxCountLength - metricsTextItem.Count.Length) + 1;
-                                metricText += $"{metricsTextItem.Count}{new string(' ', diff)}";
-
-                                diff = (maxAverageLength - metricsTextItem.Average.Length) + 1;
-                                metricText += $"{metricsTextItem.Average}{new string(' ', diff)}";
-
-                                metricText += metricsTextItem.Name;
-
-                                stringBuilder.AppendLine($"  {metricText}");
-                            }
-                        }
-
-                        stringBuilder.AppendLine($"}}");
-
-                        AppendToOutput(stringBuilder.ToString(), Color.DarkBlue);
-                    }
-
-                    foreach (var warning in result.Warnings)
-                    {
-                        AppendToOutput($"Warning: {warning.Key}", Color.DarkOrange);
-                        foreach (var message in warning.Value)
-                        {
-                            AppendToOutput($"    > {message}", Color.DarkOrange);
-                        }
-                    }
-
-                    foreach (var message in result.Messages)
-                    {
-                        if (message.MessageType == KbMessageType.Verbose)
-                            AppendToOutput($"{message.Text}", Color.Black);
-                        else if (message.MessageType == KbMessageType.Warning)
-                            AppendToOutput($"{message.Text}", Color.DarkOrange);
-                        else if (message.MessageType == KbMessageType.Deadlock)
-                            AppendToOutput($"{message.Text}", Color.DarkOrchid);
-                        else if (message.MessageType == KbMessageType.Error)
-                            AppendToOutput($"{message.Text}", Color.DarkRed);
-                        else if (message.MessageType == KbMessageType.Explain)
-                            AppendToOutput($"{message.Text}", Color.DarkBlue);
-                    }
-                }
-
-                PopulateResultsGrid(results);
             }
             catch (Exception ex)
             {
